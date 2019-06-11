@@ -10,8 +10,32 @@ extra-source-files:
   - README.md
 
 dependencies:
+  - aeson
   - base >= 4.7 && < 5
+  - persistent
   - persistent-mongoDB
+  - persistent-template
+  - servant
+  - servant-server
+  - template-haskell
+  - text
+  - time >= 1.9.2
+
+default-extensions:
+  - DataKinds
+  - DeriveGeneric
+  - DerivingStrategies
+  - EmptyDataDecls
+  - FlexibleContexts
+  - FlexibleInstances
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - MultiParamTypeClasses
+  - OverloadedStrings
+  - TypeFamilies
+  - TypeOperators
+
+ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -O2
 
 executables:
   entranceBE:
