@@ -32,6 +32,7 @@ default-extensions:
   - GeneralizedNewtypeDeriving
   - MultiParamTypeClasses
   - OverloadedStrings
+  - TypeApplications
   - TypeFamilies
   - TypeOperators
 
