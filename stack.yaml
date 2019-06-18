@@ -44,6 +44,7 @@ extra-deps:
       - persistent-mongoDB
       - persistent-template
       - persistent
+  - uri-0.1.6.5@sha256:8c0ac0adb4b1716d49d5710b45c9c30407f6afb7fe416bdc281f894e917c5f85
 
 allow-newer: true
 

@@ -2,9 +2,10 @@ module Server (handler) where
 
 import Data.Text (Text)
 import Servant (NoContent(..), (:<|>) (..))
-import Servant.Server (Server)
 
 import API (API, OfficeAPI, MeetingAPI, QueryAPI)
+import Database (createMeeting)
+import Monads (Server)
 
 handler :: Server API
 handler = officeHandler :<|> healthHandler
@@ -19,8 +20,7 @@ meetingHandler office = createMeeting office
                       :<|> queryHandler office
                       :<|> deleteMeeting
                       :<|> deleteAllMeetings
-    where createMeeting = undefined
-          getMeetings = undefined
+    where getMeetings = undefined
           deleteMeeting = undefined
           deleteAllMeetings = undefined
 

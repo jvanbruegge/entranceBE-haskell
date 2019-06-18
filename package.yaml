@@ -12,6 +12,8 @@ extra-source-files:
 dependencies:
   - aeson
   - base >= 4.7 && < 5
+  - mongoDB
+  - mtl
   - persistent
   - persistent-mongoDB
   - persistent-template
@@ -20,6 +22,10 @@ dependencies:
   - template-haskell
   - text
   - time >= 1.9.2
+  - unordered-containers
+  - uri
+  - wai
+  - warp
 
 default-extensions:
   - DataKinds
@@ -31,7 +37,9 @@ default-extensions:
   - GADTs
   - GeneralizedNewtypeDeriving
   - MultiParamTypeClasses
+  - NamedFieldPuns
   - OverloadedStrings
+  - ScopedTypeVariables
   - TypeApplications
   - TypeFamilies
   - TypeOperators
