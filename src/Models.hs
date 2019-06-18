@@ -11,7 +11,6 @@ import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
 import Database.Persist
 import Database.Persist.TH (share, mkPersist, persistLowerCase)
-import GHC.Generics (Generic)
 import qualified Data.HashMap.Strict as Map
 
 import MongoSettings (mongoSettings)
@@ -19,7 +18,7 @@ import MongoSettings (mongoSettings)
 share
     [mkPersist mongoSettings]
     [persistLowerCase|
-User json
+DbUser json
     name Text
     phone Text
     createdAt UTCTime
@@ -41,10 +40,16 @@ DbMeeting json sql=meetings
     deriving Show Eq
 |]
 
-newtype Meeting = MkMeeting (Entity DbMeeting)
-type MeetingId = DbMeetingId
+type UserId = DbUserId
+newtype User = MkUser (Entity DbUser)
+    deriving ToJSON via (WithId DbUser)
 
-instance ToJSON Meeting where
-    toJSON (MkMeeting (Entity key meeting)) = Object $ Map.insert "_id" (toJSON key) (getValues $ toJSON meeting)
+type MeetingId = DbMeetingId
+newtype Meeting = MkMeeting (Entity DbMeeting)
+    deriving ToJSON via (WithId DbMeeting)
+
+newtype WithId a = MkWithId (Entity a)
+instance (ToJSON a, ToJSON (Key a)) => ToJSON (WithId a) where
+    toJSON (MkWithId (Entity key object)) = Object $ Map.insert "_id" (toJSON key) (getValues $ toJSON object)
         where getValues (Object hashmap) = hashmap
-              getValues _ = error "Can not happen, meeting is always an object"
+              getValues _ = error "Can only wrap objects with WithId"
