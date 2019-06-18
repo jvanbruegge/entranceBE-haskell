@@ -3,7 +3,7 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Models (
-    User(..), Meeting(..), DbMeeting(..), MeetingId, UserId
+    User(..), Meeting(..), DbMeeting(..), MeetingId, UserId, EntityField(DbMeetingDate, DbMeetingOffice)
 ) where
 
 import Data.Aeson (ToJSON(..), Value(Object))

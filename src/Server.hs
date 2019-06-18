@@ -4,7 +4,7 @@ import Data.Text (Text)
 import Servant (NoContent(..), (:<|>) (..))
 
 import API (API, OfficeAPI, MeetingAPI, QueryAPI)
-import Database (createMeeting)
+import Database (createMeeting, getMeetings)
 import Monads (Server)
 
 handler :: Server API
@@ -20,8 +20,7 @@ meetingHandler office = createMeeting office
                       :<|> queryHandler office
                       :<|> deleteMeeting
                       :<|> deleteAllMeetings
-    where getMeetings = undefined
-          deleteMeeting = undefined
+    where deleteMeeting = undefined
           deleteAllMeetings = undefined
 
 queryHandler :: Text -> Server QueryAPI
