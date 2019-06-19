@@ -1,4 +1,4 @@
-module Helpers (endOfToday) where
+module Helpers (endOfToday, startOfToday) where
 
 import Data.Fixed (Fixed(..), resolution, E12)
 import Data.Proxy (Proxy(..))
@@ -8,7 +8,14 @@ import Data.Time.LocalTime (zonedTimeToLocalTime, zonedTimeToUTC, TimeOfDay(..),
 import Monads (MonadTime(getZonedTime))
 
 endOfToday :: MonadTime m => m UTCTime
-endOfToday = do
+endOfToday = jumpTime $ TimeOfDay 23 59 $ MkFixed $ 60 * resolution (Proxy @E12)
+
+startOfToday :: MonadTime m => m UTCTime
+startOfToday = jumpTime $ TimeOfDay 0 0 $ MkFixed 0
+
+jumpTime :: MonadTime m => TimeOfDay -> m UTCTime
+jumpTime t = do
         now <- getZonedTime
-        let end = (zonedTimeToLocalTime now) { localTimeOfDay = TimeOfDay 23 59 (MkFixed $ 60 * resolution (Proxy @E12)) }
+        let end = (zonedTimeToLocalTime now) { localTimeOfDay = t }
         pure $ zonedTimeToUTC $ now { zonedTimeToLocalTime = end }
+

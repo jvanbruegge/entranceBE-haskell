@@ -4,14 +4,14 @@ module Database (
 
 import Data.Coerce (coerce)
 import Data.Text (Text)
-import Database.Persist ((==.), (<.), (>.))
+import Database.Persist ((==.), (<=.), (>=.))
 import Database.Persist.Class (insert, selectList, delete, deleteWhere)
 import Database.Persist.Types (Entity(..), SelectOpt(Asc), Filter)
 
 import HelperModels (CreateMeeting(..))
 import Models (DbMeeting(..), Meeting(..), MeetingId, EntityField(DbMeetingDate, DbMeetingOffice))
 import Monads (MonadDatabase(runQuery), MonadTime(getCurrentTime))
-import Helpers (endOfToday)
+import Helpers (endOfToday, startOfToday)
 
 createMeeting :: (MonadDatabase m, MonadTime m) => Text -> CreateMeeting -> m Meeting
 createMeeting office CreateMeeting{ host, phone, meeting, date } = do
@@ -40,9 +40,9 @@ data InTheFuture = JustToday | AlsoInTheFuture
 
 getMeetingsFromToday :: (MonadDatabase m, MonadTime m) => InTheFuture -> Text -> m [Meeting]
 getMeetingsFromToday future office = do
-    currentDate <- getCurrentTime
+    start <- startOfToday
     end <- endOfToday
-    listMeetings ((DbMeetingDate >. currentDate):[DbMeetingDate <. end | future == JustToday]) office
+    listMeetings ((DbMeetingDate >=. start):[DbMeetingDate <=. end | future == JustToday]) office
 
 listMeetings :: MonadDatabase m => [Filter DbMeeting] -> Text -> m [Meeting]
 listMeetings filters office = fmap coerce $ runQuery $ selectList ((DbMeetingOffice ==. office):filters) [Asc DbMeetingDate]
