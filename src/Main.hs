@@ -11,8 +11,9 @@ import Data.Text (pack)
 import Database.MongoDB.Connection (PortID(PortNumber))
 import Database.Persist.MongoDB (MongoConf(..), defaultMongoConf, master, withConnection)
 import Network.Wai (Application)
-import Network.Wai.Logger (ApacheLogger, withStdoutLogger)
 import Network.Wai.Handler.Warp (runSettings, Settings, Port, setPort, setLogger, defaultSettings)
+import Network.Wai.Logger (ApacheLogger, withStdoutLogger)
+import Network.Wai.Middleware.Cors (simpleCors)
 import Servant (Handler(..), serve, hoistServer)
 import System.Environment (lookupEnv)
 import Text.Read (readMaybe)
@@ -29,7 +30,7 @@ appMtoHandler :: forall a. Env -> AppM a -> Handler a
 appMtoHandler e = Handler . ExceptT . flip runReaderT e . runExceptT
 
 getApplication :: Env -> Application
-getApplication e = serve api $ hoistServer api (appMtoHandler e) handler
+getApplication e = simpleCors $ serve api $ hoistServer api (appMtoHandler e) handler
     where api = Proxy @API
 
 parseUrl :: String -> Maybe MongoConf
