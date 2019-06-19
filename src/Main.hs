@@ -48,6 +48,6 @@ main = do
     isDevelopment <- (== "development") <$> env "NODE_ENV" "development"
     port <- readPort <$> env "PORT" "8000"
     let mongoConf = fromMaybe
-            (error "Malformed mongodb url, expected something like 'mongodb://<host>:<port>/<dbname>'") $
-            parseUrl url
+            (error $ "Malformed mongodb url, expected something like 'mongodb://<host>:<port>/<dbname>', got '" <> url <> "'")
+            (parseUrl url)
     withConnection mongoConf (\pool -> run port $ getApplication $ Env { pool, isDevelopment })
