@@ -11,7 +11,8 @@ import Data.Text (pack)
 import Database.MongoDB.Connection (PortID(PortNumber))
 import Database.Persist.MongoDB (MongoConf(..), defaultMongoConf, master, withConnection)
 import Network.Wai (Application)
-import Network.Wai.Handler.Warp (run)
+import Network.Wai.Logger (ApacheLogger, withStdoutLogger)
+import Network.Wai.Handler.Warp (runSettings, Settings, Port, setPort, setLogger, defaultSettings)
 import Servant (Handler(..), serve, hoistServer)
 import System.Environment (lookupEnv)
 import Text.Read (readMaybe)
@@ -42,12 +43,15 @@ readPort str = go $ readMaybe str
     where go (Just x) = x
           go Nothing = error $ "Expected port number to be an integer, got '" <> str <> "'"
 
+warpSettings :: Port -> ApacheLogger -> Settings
+warpSettings port logger = setLogger logger $ setPort port $ defaultSettings
+
 main :: IO ()
-main = do
+main = withStdoutLogger $ \logger -> do
     url <- env "MONGODB_URL" "mongodb://mongo:27017/entrance-app"
     isDevelopment <- (== "development") <$> env "NODE_ENV" "development"
     port <- readPort <$> env "PORT" "8000"
     let mongoConf = fromMaybe
             (error $ "Malformed mongodb url, expected something like 'mongodb://<host>:<port>/<dbname>', got '" <> url <> "'")
             (parseUrl url)
-    withConnection mongoConf (\pool -> run port $ getApplication $ Env { pool, isDevelopment })
+    withConnection mongoConf (\pool -> runSettings (warpSettings port logger) $ getApplication $ Env { pool, isDevelopment })

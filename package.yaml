@@ -25,6 +25,7 @@ dependencies:
   - unordered-containers
   - uri
   - wai
+  - wai-logger
   - warp
 
 default-extensions:
