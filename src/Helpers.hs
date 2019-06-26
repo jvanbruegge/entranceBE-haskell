@@ -8,7 +8,7 @@ import Data.Time.LocalTime (zonedTimeToLocalTime, zonedTimeToUTC, TimeOfDay(..),
 import Monads (MonadTime(getZonedTime))
 
 endOfToday :: MonadTime m => m UTCTime
-endOfToday = jumpTime $ TimeOfDay 23 59 $ MkFixed $ 60 * resolution (Proxy @E12)
+endOfToday = jumpTime $ TimeOfDay 23 59 $ MkFixed $ 60 * resolution (Proxy @E12) - 1
 
 startOfToday :: MonadTime m => m UTCTime
 startOfToday = jumpTime $ TimeOfDay 0 0 $ MkFixed 0

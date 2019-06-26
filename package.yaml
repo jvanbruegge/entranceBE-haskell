@@ -21,7 +21,7 @@ dependencies:
   - servant-server
   - template-haskell
   - text
-  - time >= 1.9.2
+  - time
   - unordered-containers
   - uri
   - wai
@@ -43,6 +43,7 @@ default-extensions:
   - NamedFieldPuns
   - OverloadedStrings
   - ScopedTypeVariables
+  - StandaloneDeriving
   - TypeApplications
   - TypeFamilies
   - TypeOperators
@@ -51,5 +52,18 @@ ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplet
 
 executables:
   entranceBE:
-    source-dirs:      src
+    source-dirs:      app
     main:             Main.hs
+    dependencies:
+      - entranceBE
+
+library:
+  source-dirs:      src
+
+tests:
+  entranceBE-tests:
+    source-dirs: test
+    main:        Tests.hs
+    dependencies:
+      - hedgehog
+      - entranceBE

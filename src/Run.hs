@@ -1,6 +1,6 @@
 {-# OPTIONS_GHC -Wno-warnings-deprecations #-}
 
-module Main where
+module Run (runServer) where
 
 import Control.Monad ((>=>))
 import Control.Monad.Except (ExceptT(..), runExceptT)
@@ -47,8 +47,8 @@ readPort str = go $ readMaybe str
 warpSettings :: Port -> ApacheLogger -> Settings
 warpSettings port logger = setLogger logger $ setPort port $ defaultSettings
 
-main :: IO ()
-main = withStdoutLogger $ \logger -> do
+runServer :: IO ()
+runServer = withStdoutLogger $ \logger -> do
     url <- env "MONGODB_URL" "mongodb://mongo:27017/entrance-app"
     isDevelopment <- (== "development") <$> env "NODE_ENV" "development"
     port <- readPort <$> env "PORT" "8000"
