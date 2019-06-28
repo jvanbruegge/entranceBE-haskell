@@ -1,0 +1,17 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    command: -v
+    volumes:
+      - /data/db
+  app:
+    restart: always
+    build: .
+    image: entrance-app-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    links:
+      - mongo

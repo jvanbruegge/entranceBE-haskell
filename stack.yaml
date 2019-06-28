@@ -38,7 +38,7 @@ packages:
 # using the same syntax as the packages field.
 # (e.g., acme-missiles-0.3)
 extra-deps:
-  - git: git@github.com:yesodweb/persistent.git
+  - git: https://github.com/yesodweb/persistent.git
     commit: 3e88b423b073e62ca622c9d960f99bc8fa3fc262
     subdirs:
       - persistent-mongoDB

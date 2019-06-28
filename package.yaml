@@ -1,9 +1,9 @@
 name:                entranceBE
 version:             0.1.0.0
-homepage:            https://github.com/githubuser/entranceBE#readme
+homepage:            https://github.com/jvanbruegge/entranceBE#readme
 license:             MIT
-author:              Author name here
-maintainer:          example@example.com
+author:              Jan van Brügge
+maintainer:          jan.van.brugge@futurice.com
 copyright:           2019 Futurice GmbH
 category:            Web
 extra-source-files:
