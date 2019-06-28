@@ -13,7 +13,7 @@ handler = officeHandler :<|> healthHandler
     where healthHandler = pure NoContent
 
 officeHandler :: Server OfficeAPI
-officeHandler = meetingHandler :<|> meetingHandler "munich"
+officeHandler = meetingHandler "munich" :<|> meetingHandler
 
 meetingHandler :: Text -> Server MeetingAPI
 meetingHandler office = createMeeting office

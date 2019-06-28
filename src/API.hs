@@ -9,8 +9,8 @@ import Models (Meeting, MeetingId)
 type API = OfficeAPI
          :<|> "health" :> Get '[PlainText] NoContent
 
-type OfficeAPI = Capture "office" Text :> "meetings" :> MeetingAPI
-               :<|> "meetings" :> MeetingAPI --TODO: Remove after clients have migrated
+type OfficeAPI = "meetings" :> MeetingAPI --TODO: Remove after clients have migrated
+                :<|> Capture "office" Text :> "meetings" :> MeetingAPI
 
 type MeetingAPI = ReqBody '[JSON] CreateMeeting :> Post '[JSON] Meeting
                 :<|> Get '[JSON] [Meeting]
