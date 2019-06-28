@@ -45,7 +45,7 @@ readPort str = go $ readMaybe str
           go Nothing = error $ "Expected port number to be an integer, got '" <> str <> "'"
 
 warpSettings :: Port -> ApacheLogger -> Settings
-warpSettings port logger = setLogger logger $ setPort port $ defaultSettings
+warpSettings port logger = setLogger logger $ setPort port defaultSettings
 
 runServer :: IO ()
 runServer = withStdoutLogger $ \logger -> do

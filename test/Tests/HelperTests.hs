@@ -2,7 +2,7 @@
 
 module Tests.HelperTests (helperTests) where
 
-import Control.Monad.Reader (MonadReader, Reader, ask, runReader)
+import Control.Monad.Reader (MonadReader, Reader, ask, asks, runReader)
 import Data.Proxy (Proxy(..))
 import Data.Fixed (Fixed(..), resolution, E12)
 import Data.Time.Clock (UTCTime, diffUTCTime, NominalDiffTime, secondsToNominalDiffTime)
@@ -41,7 +41,7 @@ newtype PureTime a = MkPureTime { unPureTime :: Reader ZonedTime a }
 deriving newtype instance MonadReader ZonedTime PureTime
 
 instance MonadTime PureTime where
-    getCurrentTime = zonedTimeToUTC <$> ask
+    getCurrentTime = asks zonedTimeToUTC
     getZonedTime = ask
 
 minusPico :: NominalDiffTime -> Integer -> NominalDiffTime

@@ -35,5 +35,5 @@ instance MonadDatabase AppM where
         --TODO: Maybe catch database errors
 
 instance MonadTime AppM where
-    getCurrentTime = liftIO $ T.getCurrentTime
-    getZonedTime = liftIO $ T.getZonedTime
+    getCurrentTime = liftIO T.getCurrentTime
+    getZonedTime = liftIO T.getZonedTime

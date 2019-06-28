@@ -13,6 +13,4 @@ main = do
 
     results <- sequence [helperTests]
 
-    unless (and results) $ exitFailure
-
-    pure ()
+    unless (and results) exitFailure
